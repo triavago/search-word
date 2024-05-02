@@ -31,7 +31,7 @@ void search_in_file(const std::string& filename, const std::string& words, std::
 
 void search_in_directory(const std::string& directory, const std::vector<std::string> wordsContainer) {
     std::set<std::string> fileNameSet;
-    for (const auto& entry : std::filesystem::directory_iterator(directory)) {
+    for (const auto& entry : std::filesystem::recursive_directory_iterator(directory)) {
         if (entry.is_regular_file()) {
             for (auto& word : wordsContainer)
             {
@@ -46,15 +46,19 @@ void search_in_directory(const std::string& directory, const std::vector<std::st
 }
 
 int main(int argc, char* argv[]) {
-   /* if (argc != 3) {
+    if (argc < 2) {
         std::cerr << "Usage: ./program <directory> <words>\n";
         return 1;
-    }*/
+    }
 
-    /*std::string directory = argv[2];
-    std::string words = argv[1];*/
-    std::string directory = "D:\\private\\search";
-    std:: string words = "book cat";
+    std::string directory = argv[2];
+    std::string words = argv[1];
+    if ("" == directory)
+    {
+        directory = std::filesystem::current_path().string();
+    }
+    // std::string directory = "D:\\private\\wikipedia-aa-html";
+    // std:: string words = "deleted";
     std::vector<std::string> wordsContainer;
     std::istringstream iss(words);
     std::string word;
