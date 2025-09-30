@@ -1,7 +1,7 @@
 #include "ThreadPool.h"
 
 static	std::mutex mutex_cout;
-constexpr int BUFFER_SIZE = 16;
+constexpr int BUFFER_SIZE = 8192;
 
 bool search_file_for_key_word(const std::string& file_path, const std::string& key_word) {
 	std::vector<char> chunk(BUFFER_SIZE);
@@ -21,7 +21,7 @@ bool search_file_for_key_word(const std::string& file_path, const std::string& k
 				}
 				return true;
 			}
-			//cache = std::string(chunk.end() - key_word.size(), chunk.end());
+			cache = std::string(chunk.end() - key_word.size(), chunk.end());
 		}
 	}
 	file.close();
